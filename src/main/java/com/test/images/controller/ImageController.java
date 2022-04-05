@@ -36,7 +36,8 @@ public class ImageController {
                     .body(outputStream.toByteArray());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Entered dimension is exceeding the max allowed limit.".getBytes());
+                    .body(("Entered dimension is exceeding the max allowed limit - " +
+                            "width*height should be less than 32768. Kindly re-enter ").getBytes());
         }
     }
 

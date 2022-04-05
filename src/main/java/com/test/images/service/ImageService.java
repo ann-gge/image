@@ -29,7 +29,7 @@ public class ImageService implements IImageService {
             LOGGER.info("After setting colors on image");
         }
         else{
-            LOGGER.info("Entered width and height exceeding the limit");
+            LOGGER.info("Entered width and height exceeds the limit");
         }
         return image;
     }
