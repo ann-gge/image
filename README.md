@@ -4,7 +4,7 @@ An application to generate an image in which each color occurs only once.
 
 ## Description
 
-In the applicattion, an image, of user specified size, is generated having only unique colors. The user is asked to enter the dimensions -width and height -of the image where width* height should not exceed 256x128px(as set for this challenge)
+In the applicattion, an image, of user specified size, is generated having only unique colors. The user is asked to enter the dimensions -width and height -of the image where width* height should not exceed 256x128=32768(as set for this challenge)
 
 ## Getting Started
 
