@@ -23,7 +23,7 @@ public class ImageController {
     @Autowired
     IImageService imageService;
 
-    @GetMapping("getImage")
+    @GetMapping("image")
     public ResponseEntity<byte[]> getImage(@RequestParam int width, @RequestParam int height) {
         BufferedImage image=null;
         try {
@@ -31,12 +31,12 @@ public class ImageController {
             image=imageService.generateImage(width,height);
             ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
             ImageIO.write(image,"jpeg",outputStream);
-            byte[] imageByte=outputStream.toByteArray();
             return ResponseEntity.status(HttpStatus.OK)
-                            .contentType(MediaType.IMAGE_JPEG)
-                            .body(imageByte);
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(outputStream.toByteArray());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Entered dimension is exceeding the max allowed limit.".getBytes());
         }
     }
 

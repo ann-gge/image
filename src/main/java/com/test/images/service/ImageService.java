@@ -31,7 +31,7 @@ public class ImageService implements IImageService {
         else{
             LOGGER.info("Entered width and height exceeding the limit");
         }
-    return image;
+        return image;
     }
     /*
     Method for generating unique colors

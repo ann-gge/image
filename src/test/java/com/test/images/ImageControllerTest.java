@@ -1,6 +1,5 @@
 package com.test.images;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.images.controller.ImageController;
 import com.test.images.service.ImageService;
 import org.junit.Before;
@@ -19,8 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ImageControllerTest {
 
     @InjectMocks
-    ImageController userDataController;
+    ImageController imageController;
 
     @Mock
     ImageService imageService;
@@ -40,7 +37,7 @@ public class ImageControllerTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(userDataController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(imageController).build();
     }
 
     @Test
@@ -49,19 +46,18 @@ public class ImageControllerTest {
         given(imageService.generateImage(256,128)).willReturn(image);
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
         ImageIO.write(image,"jpeg",outputStream);
-        byte[] imageByte=outputStream.toByteArray();
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/getImage")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/image")
                         .param("width", String.valueOf(256))
                         .param("height", String.valueOf(128))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(imageByte)
+                        .content(outputStream.toByteArray())
                         .accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isOk());
     }
     @Test(expected = Exception.class)
     public void getImageFailure() throws Exception {
         Mockito.doThrow(Exception.class).when(imageService).generateImage(400,123);
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/getImage")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/image")
                         .param("width", String.valueOf(400))
                         .param("height", String.valueOf(123))
                         .contentType(MediaType.APPLICATION_JSON)
